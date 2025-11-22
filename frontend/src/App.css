@@ -1,0 +1,361 @@
+/* App.css - Updated for Better Text Contrast */
+
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.main-container {
+  padding: 20px;
+  min-height: calc(100vh - 56px);
+}
+
+/* Card Styles with Better Contrast */
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.card-header {
+  border-radius: 12px 12px 0 0 !important;
+  border-bottom: 1px solid #e9ecef;
+  font-weight: 600;
+  background: rgba(248, 249, 250, 0.9) !important;
+}
+
+/* Text Contrast Improvements */
+.card-title {
+  color: #2c3e50 !important;
+  font-weight: 600;
+}
+
+.card-text {
+  color: #495057 !important;
+  line-height: 1.5;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+/* Note Card Specific Styles */
+.note-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.note-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.note-card .card-body {
+  background: transparent;
+}
+
+.note-card .card-title {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.note-card .card-text {
+  color: #495057;
+}
+
+/* Dashboard Stats Cards */
+.stats-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stats-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.stats-card i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.stats-card .card-title {
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.stats-card h3 {
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+/* Button Styles */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #5a6fd8, #6a4190);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Form Styles */
+.form-control, .form-select {
+  border-radius: 8px;
+  border: 1px solid #e1e5e9;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Badge Styles */
+.badge {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.badge.bg-primary {
+  background: linear-gradient(45deg, #667eea, #764ba2) !important;
+}
+
+.badge.bg-secondary {
+  background: #6c757d !important;
+}
+
+/* Alert Styles */
+.alert {
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.alert-success {
+  background: linear-gradient(45deg, #d4edda, #c3e6cb);
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+  background: linear-gradient(45deg, #f8d7da, #f1b0b7);
+  color: #721c24;
+  border: 1px solid #f1b0b7;
+}
+
+.alert-info {
+  background: linear-gradient(45deg, #d1ecf1, #b8e0e6);
+  color: #0c5460;
+  border: 1px solid #b8e0e6;
+}
+
+/* Navbar Fix */
+.navbar {
+  background: rgba(33, 37, 41, 0.95) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Text Content Areas */
+.note-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #2c3e50 !important;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+/* Table Styles */
+.table {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th {
+  background: rgba(102, 126, 234, 0.1);
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* List Group */
+.list-group-item {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #495057;
+}
+
+/* Tab Styles */
+.nav-tabs .nav-link {
+  border: none;
+  border-radius: 8px 8px 0 0;
+  font-weight: 500;
+  color: #6c757d;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.nav-tabs .nav-link.active {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+}
+
+.nav-tabs .nav-link:hover {
+  border: none;
+  color: #667eea;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Background for specific sections that need more contrast */
+.bg-light {
+  background: rgba(248, 249, 250, 0.9) !important;
+}
+
+/* Custom background for card bodies */
+.card-body {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Footer contrast */
+.card-footer {
+  background: rgba(248, 249, 250, 0.9) !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Search bar contrast */
+.search-bar {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Progress bar */
+.progress {
+  border-radius: 10px;
+  height: 8px;
+  background-color: rgba(233, 236, 239, 0.8);
+}
+
+.progress-bar {
+  border-radius: 10px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  transition: width 0.6s ease;
+}
+
+/* Login/Register Cards */
+.auth-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.auth-card .card-body {
+  background: transparent;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 15px;
+  }
+  
+  .stats-card {
+    margin-bottom: 1rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: rgba(45, 55, 72, 0.95);
+    color: white;
+  }
+  
+  .form-control, .form-select {
+    background-color: rgba(74, 85, 104, 0.9);
+    border-color: #718096;
+    color: white;
+  }
+  
+  .form-control::placeholder {
+    color: #a0aec0;
+  }
+}
+
+/* Utility Classes */
+.gradient-text {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-custom {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.border-gradient {
+  border: 2px solid;
+  border-image: linear-gradient(45deg, #667eea, #764ba2) 1;
+}
+
+/* Ensure all text is readable */
+body {
+  color: #2c3e50;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #2c3e50;
+}
+
+p, span, div {
+  color: #495057;
+}
+
+/* Specific fix for note card text */
+.note-card .card-body .text-muted {
+  color: #6c757d !important;
+}
+
+/* Fix for dates and metadata */
+small.text-muted {
+  color: #6c757d !important;
+  opacity: 0.9;
+}

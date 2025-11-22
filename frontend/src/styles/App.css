@@ -1,0 +1,640 @@
+/* App.css - Main Styles for AI Notes Analyzer */
+
+.App {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+
+.main-container {
+  padding-top: 70px;
+  min-height: calc(100vh - 56px);
+}
+
+
+
+
+/* Compact Black Navbar Styles */
+.custom-navbar {
+  background: #000000 !important;
+  padding: 0.4rem 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid #333;
+}
+
+.custom-navbar.scrolled {
+  background: #000000 !important;
+  padding: 0.3rem 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Brand Logo - More Compact */
+.brand-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.3rem 0;
+}
+
+.logo-icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+  color: white;
+  background: #333;
+  padding: 0.4rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brand-main {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+/* Compact Navigation Items */
+.nav-item {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem !important;
+  border-radius: 6px;
+  margin: 0 0.1rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.nav-item:hover {
+  color: white !important;
+   transform: translateY(-1px);
+}
+
+.nav-item.active {
+  color: white !important;
+  font-weight: 600;
+   transform: translateY(-2px);
+}
+
+/* Compact Notes Badge */
+.notes-badge {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.4rem;
+  background: #666 !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+/* Compact Dropdown Styles */
+.nav-dropdown .dropdown-toggle {
+  background: transparent !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  padding: 0.5rem 0.8rem !important;
+  font-size: 0.9rem;
+}
+
+.nav-dropdown .dropdown-toggle::after {
+  display: none;
+}
+
+.nav-dropdown-menu {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  margin-top: 0.3rem !important;
+  min-width: 200px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.dropdown-item:hover {
+  background: #333;
+  color: white;
+}
+
+.dropdown-header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.5rem 0.8rem;
+}
+
+/* Compact New Note Button */
+.new-note-btn {
+  background: #28a745 !important;
+  border: none !important;
+  padding: 0.4rem 0.8rem !important;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.new-note-btn:hover {
+  background: #218838 !important;
+  transform: translateY(-1px);
+}
+
+/* Compact User Section */
+.user-nav {
+  margin-left: 0.5rem;
+}
+
+.user-toggle {
+  background: #333 !important;
+  border: 1px solid #444 !important;
+  color: white !important;
+  padding: 0.4rem 0.8rem !important;
+  border-radius: 20px !important;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+}
+
+.user-toggle:hover {
+  background: #444 !important;
+  border-color: #555 !important;
+}
+
+.user-avatar {
+  position: relative;
+  margin-right: 0.5rem;
+}
+
+.avatar-img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #555;
+}
+
+.user-name {
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.user-dropdown-menu {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  min-width: 180px;
+}
+
+.user-dropdown-menu .dropdown-header {
+  background: transparent;
+  padding: 0.8rem;
+}
+
+.user-dropdown-menu .dropdown-header .avatar-img {
+  width: 32px;
+  height: 32px;
+}
+
+/* Compact Register Button for Guests */
+.register-btn {
+  background: transparent !important;
+  border: 1px solid #666 !important;
+  color: white !important;
+  padding: 0.4rem 0.8rem !important;
+  font-size: 0.85rem;
+}
+
+.register-btn:hover {
+  background: #333 !important;
+  border-color: #888 !important;
+}
+
+/* Compact Navbar Toggler */
+.navbar-toggler {
+  border: 1px solid #444;
+  padding: 0.2rem 0.4rem;
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Badge styles for dropdown */
+.badge.bg-outline-primary {
+  background: transparent !important;
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+.badge.bg-outline-success {
+  background: transparent !important;
+  border: 1px solid #28a745;
+  color: #28a745;
+}
+
+.badge.bg-outline-info {
+  background: transparent !important;
+  border: 1px solid #17a2b8;
+  color: #17a2b8;
+}
+
+/* Responsive Design for Compact Navbar */
+@media (max-width: 991.98px) {
+  .custom-navbar {
+    padding: 0.3rem 0;
+  }
+  
+  .nav-item {
+    padding: 0.6rem 1rem !important;
+    margin: 0.1rem 0;
+    font-size: 0.9rem;
+  }
+  
+  .nav-dropdown-menu {
+    background: #1a1a1a;
+    margin: 0.3rem 0;
+    border-radius: 6px;
+  }
+  
+  .user-toggle {
+    margin: 0.3rem 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .new-note-btn {
+    width: 100%;
+    margin: 0.3rem 0;
+    justify-content: center;
+  }
+  
+  .brand-main {
+    font-size: 1.2rem;
+  }
+  
+  .logo-icon {
+    font-size: 1.3rem;
+    padding: 0.3rem;
+  }
+}
+
+
+
+
+/* Card Styles */
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-header {
+  border-radius: 12px 12px 0 0 !important;
+  border-bottom: 1px solid #e9ecef;
+  font-weight: 600;
+}
+
+/* Note Card Styles */
+.note-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border: 1px solid #e9ecef;
+  height: 100%;
+}
+
+.note-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+
+
+/* Button Styles */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border: none;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #5a6fd8, #6a4190);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+
+/* BASE BUTTON STYLE */
+.btn-soft {
+  border-width: 1.5px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* PRIMARY BUTTON */
+.btn-soft-primary {
+     background-color: #0d6efd; 
+   color: #fff;
+  border-color: #0d6efd;
+}
+
+.btn-soft-primary:hover {
+  background-color: #0453c9; 
+  color: #fff;
+  border-color: #0d6efd;
+    transform: translateY(-2px);
+}
+
+/* INFO BUTTON */
+.btn-soft-info {
+  background-color: #099fbdf8;
+  color: white;
+  border-color: #0dcaf0;
+  border: 1.5px solid rgba(13, 202, 240, 0.4);
+ 
+}
+
+.btn-soft-info:hover {
+  background-color: #0dcaf0;
+  color: white;
+  border-color: #0dcaf0;
+  transform: translateY(-2px);
+}
+
+/* DANGER BUTTON */
+.btn-soft-danger {
+  background-color: #e72b3e;
+  color: white;
+  border: 1.5px solid rgba(220, 53, 69, 0.4);
+ 
+  
+}
+
+.btn-soft-danger:hover {
+  background-color: #e0051b;
+  color: #fff;
+  border-color: #b31625;
+  transform: translateY(-2px);
+}
+
+
+
+/* Form Styles */
+.form-control, .form-select {
+  border-radius: 8px;
+  border: 1px solid #e1e5e9;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Badge Styles */
+.badge {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* Dashboard Stats Cards */
+.stats-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Login/Register Card Styles */
+.auth-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Search Bar Styles */
+.search-bar {
+  border-radius: 25px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #e1e5e9;
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #5a6fd8, #6a4190);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Alert Styles */
+.alert {
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+}
+
+.alert-success {
+  background: linear-gradient(45deg, #d4edda, #c3e6cb);
+  color: #155724;
+}
+
+.alert-danger {
+  background: linear-gradient(45deg, #f8d7da, #f1b0b7);
+  color: #721c24;
+}
+
+.alert-info {
+  background: linear-gradient(45deg, #d1ecf1, #b8e0e6);
+  color: #0c5460;
+}
+
+/* Tab Styles */
+.nav-tabs .nav-link {
+  border: none;
+  border-radius: 8px 8px 0 0;
+  font-weight: 500;
+  color: #6c757d;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link.active {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+}
+
+.nav-tabs .nav-link:hover {
+  border: none;
+  color: #667eea;
+}
+
+/* Progress Bar */
+.progress {
+  border-radius: 10px;
+  height: 8px;
+  background-color: #e9ecef;
+}
+
+.progress-bar {
+  border-radius: 10px;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  transition: width 0.6s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 0 15px;
+  }
+  
+  .stats-card {
+    margin-bottom: 1rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .navbar, .btn, .card-footer {
+    display: none !important;
+  }
+  
+  .card {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: #2d3748;
+    color: white;
+  }
+  
+  .form-control, .form-select {
+    background-color: #4a5568;
+    border-color: #718096;
+    color: white;
+  }
+  
+  .form-control::placeholder {
+    color: #a0aec0;
+  }
+}
+
+/* Utility Classes */
+.gradient-text {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-custom {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.border-gradient {
+  border: 2px solid;
+  border-image: linear-gradient(45deg, #667eea, #764ba2) 1;
+}
