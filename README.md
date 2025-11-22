@@ -17,7 +17,7 @@ Auto-save
 
 Markdown support (optional)
 
-🧠 AI-Powered Tools
+AI-Powered Tools
 
 For each note, the AI can:
 
@@ -31,7 +31,7 @@ Rewrite in simple English
 
 Detect writing tone
 
-🔎 Smart Search
+Smart Search
 
 Normal keyword search
 
@@ -39,7 +39,7 @@ AI semantic search
 
 Category filters
 
-🔐 Authentication (Coming Soon in Backend)
+ Authentication (Coming Soon in Backend)
 
 Register / Login
 
@@ -47,7 +47,7 @@ Forgot password
 
 Google authentication (optional)
 
-📊 Dashboard
+Dashboard
 
 Total notes
 
@@ -57,7 +57,7 @@ Top searched terms
 
 AI insights
 
-🛠 Tech Stack
+ Tech Stack
 Frontend
 
 React + Vite
