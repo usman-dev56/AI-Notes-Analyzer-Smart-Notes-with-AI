@@ -1,4 +1,4 @@
-AI Notes Analyzer – Smart Notes App with AI Insights
+# **AI Notes Analyzer – Smart Notes App with AI Insights
 
 AI Notes Analyzer is a modern notes-taking web application powered by AI.
 It helps students and professionals generate summaries, extract keywords, create conceptual questions, detect tone, and simplify notes with one click.
@@ -6,18 +6,16 @@ It helps students and professionals generate summaries, extract keywords, create
 This repository contains the Frontend of the project.
 The Backend will be added soon.
 
-#Features
-#Notes Management
+*Features
+*Notes Management
 
-Create, edit, delete notes
+-Create, edit, delete notes
 
-Organize notes into categories
+-Organize notes into categories
 
-Auto-save
+-Auto-save
 
-Markdown support (optional)
-
-AI-Powered Tools
+# **AI-Powered Tools
 
 For each note, the AI can:
 
@@ -39,7 +37,7 @@ AI semantic search
 
 Category filters
 
- Authentication (Coming Soon in Backend)
+# **Authentication (Coming Soon in Backend)
 
 Register / Login
 
@@ -51,13 +49,13 @@ Dashboard
 
 Total notes
 
-Recently edited
+Recently edited notes
 
 Top searched terms
 
 AI insights
 
- Tech Stack
+Tech Stack
 Frontend
 
 React + Vite
@@ -70,7 +68,7 @@ Context API / Redux Toolkit
 
 Axios
 
-Backend (Coming Soon)
+# **Backend (Coming Soon)
 
 Node.js + Express
 
@@ -82,7 +80,7 @@ OpenAI / DeepSeek API
 
 Semantic search logic
 
-#Backend Coming Soon
+Backend Coming Soon
 
 The backend will include:
 
@@ -92,8 +90,8 @@ Protected routes
 
 Note storage in MongoDB
 
-AI endpoints for summaries, keywords, questions
+AI endpoints for summaries, keywords, and questions
 
 Semantic search engine
 
-Stay tuned for updates!
+Stay tuned for updates.
