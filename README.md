@@ -1,97 +1,135 @@
 # **AI Notes Analyzer – Smart Notes App with AI Insights
 
-AI Notes Analyzer is a modern notes-taking web application powered by AI.
-It helps students and professionals generate summaries, extract keywords, create conceptual questions, detect tone, and simplify notes with one click.
+AI Notes Analyzer is a full-stack web application that allows users to create, manage, analyze, and search notes intelligently using Hugging Face AI models.
+It enhances traditional note-taking by adding AI-powered features such as summarization, keyword extraction, semantic search, and question generation.
 
-This repository contains the Frontend of the project.
-The Backend will be added soon.
 
-*Features
-*Notes Management
 
--Create, edit, delete notes
+# **Screenshots
 
--Organize notes into categories
+🔹 Dashboard
 
--Auto-save
+<img width="1358" height="638" alt="Screenshot 2025-11-25 032553" src="https://github.com/user-attachments/assets/58845ba9-9a42-4c57-9be5-f69743074555" />
 
-# **AI-Powered Tools
 
-For each note, the AI can:
+🔹 Notes page
 
-Generate a summary
+<img width="1354" height="627" alt="Screenshot 2025-11-25 032723" src="https://github.com/user-attachments/assets/71d14c10-737c-4bae-9a7b-a780b790a662" />
 
-Extract important keywords
 
-Create 5 conceptual exam-style questions
 
-Rewrite in simple English
+🔹 AI Summary Feature
 
-Detect writing tone
+<img width="1360" height="636" alt="image" src="https://github.com/user-attachments/assets/68127c7f-83fa-4d32-b448-934ac206213b" />
 
-Smart Search
 
-Normal keyword search
+#Live Features
 
-AI semantic search
+✔ Create, edit, delete notes
+✔ Organize notes by category
+✔ AI-powered summaries
+✔ AI keyword extraction
+✔ AI question generator for study
+✔ Rewrite notes in simple English
+✔ Text tone detection
+✔ Normal + semantic search
+✔ User authentication (JWT)
+✔ Responsive UI with React + Bootstrap
+✔ Backend with Node + Express
+✔ MongoDB database
 
-Category filters
 
-# **Authentication (Coming Soon in Backend)
+# **AI Features (Hugging Face)
 
-Register / Login
+This project uses Hugging Face Inference API for:
 
-Forgot password
+🔹 Summarization
 
-Google authentication (optional)
+Short summary of each note.
 
-Dashboard
+🔹 Keyword Extraction
 
-Total notes
+Extracts important terms and concepts.
 
-Recently edited notes
+🔹 Question Generation
 
-Top searched terms
+Creates study questions based on the note.
 
-AI insights
+🔹 Semantic Search
 
-Tech Stack
-Frontend
+Find notes based on meaning, not just keywords.
 
-React + Vite
+🔹 Tone Detection
 
-React Bootstrap
+Determines writing style: academic, casual, formal, etc.
 
-React Router
 
-Context API / Redux Toolkit
+# **Tech Stack
 
-Axios
+#Frontend
 
-# **Backend (Coming Soon)
+-React (Vite)
+-React-Bootstrap
+-Bootstrap 5
+-Axios
+-Context API / Redux (if used)
+-Custom CSS
 
-Node.js + Express
+#Backend
+-Node.js
+-Express.js
+-MongoDB + Mongoose
+-JWT Authentication
+-Bcrypt
+-dotenv
+-Hugging Face Inference API
 
-MongoDB + Mongoose
 
-JWT Authentication
 
-OpenAI / DeepSeek API
 
-Semantic search logic
 
-Backend Coming Soon
+# **Learning Outcomes
 
-The backend will include:
+✔ Frontend + Backend communication
+✔ JWT auth workflow
+✔ Database modeling
+✔ Using Hugging Face AI API
+✔ Semantic search implementation
+✔ Clean folder structure
+✔ Practical UI/UX design
+✔ Working with structured & unstructured text
 
-Full authentication system
 
-Protected routes
 
-Note storage in MongoDB
+# **Installation & Setup
 
-AI endpoints for summaries, keywords, and questions
+1️⃣ Clone Repository
+git clone https://github.com/usman-dev56/AI-Notes-Analyzer-Smart-Notes-with-AI
+.git
+cd AI-Notes-Analyzer-Smart-Notes-with-AI
 
-Semantic search engine
 
-Stay tuned for updates.
+2️⃣ Install Backend Dependencies
+cd backend
+npm install
+
+3️⃣ Install Frontend Dependencies
+cd ../frontend
+npm install
+
+4️⃣ Start Backend
+npm start
+
+5️⃣ Start Frontend
+npm run dev
+
+
+
+# **License
+
+This project is for educational purposes. Feel free to modify and use it.
+
+
+
+
+
