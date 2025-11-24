@@ -1,15 +1,16 @@
-# **AI Notes Analyzer – Smart Notes App with AI Insights
+# AI Notes Analyzer – Smart Notes App with AI Insights
 
 AI Notes Analyzer is a full-stack web application that allows users to create, manage, analyze, and search notes intelligently using Hugging Face AI models.
 It enhances traditional note-taking by adding AI-powered features such as summarization, keyword extraction, semantic search, and question generation.
 
 
 
-# **Screenshots
+# Screenshots
 
 🔹 Dashboard
 
 <img width="1358" height="638" alt="Screenshot 2025-11-25 032553" src="https://github.com/user-attachments/assets/58845ba9-9a42-4c57-9be5-f69743074555" />
+
 
 
 🔹 Notes page
@@ -18,12 +19,14 @@ It enhances traditional note-taking by adding AI-powered features such as summar
 
 
 
+
 🔹 AI Summary Feature
 
 <img width="1360" height="636" alt="image" src="https://github.com/user-attachments/assets/68127c7f-83fa-4d32-b448-934ac206213b" />
 
 
-#Live Features
+
+# Live Features
 
 ✔ Create, edit, delete notes
 ✔ Organize notes by category
@@ -39,7 +42,7 @@ It enhances traditional note-taking by adding AI-powered features such as summar
 ✔ MongoDB database
 
 
-# **AI Features (Hugging Face)
+# AI Features (Hugging Face)
 
 This project uses Hugging Face Inference API for:
 
@@ -64,9 +67,9 @@ Find notes based on meaning, not just keywords.
 Determines writing style: academic, casual, formal, etc.
 
 
-# **Tech Stack
+# Tech Stack
 
-#Frontend
+# *Frontend
 
 -React (Vite)
 -React-Bootstrap
@@ -75,7 +78,7 @@ Determines writing style: academic, casual, formal, etc.
 -Context API / Redux (if used)
 -Custom CSS
 
-#Backend
+# *Backend
 -Node.js
 -Express.js
 -MongoDB + Mongoose
@@ -88,7 +91,7 @@ Determines writing style: academic, casual, formal, etc.
 
 
 
-# **Learning Outcomes
+# Learning Outcomes
 
 ✔ Frontend + Backend communication
 ✔ JWT auth workflow
@@ -101,7 +104,7 @@ Determines writing style: academic, casual, formal, etc.
 
 
 
-# **Installation & Setup
+# Installation & Setup
 
 1️⃣ Clone Repository
 git clone https://github.com/usman-dev56/AI-Notes-Analyzer-Smart-Notes-with-AI
@@ -125,7 +128,7 @@ npm run dev
 
 
 
-# **License
+# License
 
 This project is for educational purposes. Feel free to modify and use it.
 
