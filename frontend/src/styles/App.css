@@ -1,32 +1,35 @@
 /* App.css - Main Styles for AI Notes Analyzer */
 
 .App {
+  height: 100vh;
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+    position: relative;
 }
 
 
-.main-container {
-  padding-top: 70px;
-  min-height: calc(100vh - 56px);
-}
-
-
-
-
-/* Compact Black Navbar Styles */
+/* Navbar - full width, fixed at top*/
 .custom-navbar {
   background: #000000 !important;
   padding: 0.4rem 0;
   transition: all 0.3s ease;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
   border-bottom: 1px solid #333;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1030;
+  flex-shrink: 0;
 }
 
-.custom-navbar.scrolled {
-  background: #000000 !important;
-  padding: 0.3rem 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+/* Container */
+.navbar-container {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 /* Brand Logo - More Compact */
@@ -45,7 +48,13 @@
   padding: 0.4rem;
   border-radius: 8px;
   border: 1px solid #444;
+  transition: all 0.3s ease;
 }
+
+/* .brand-logo:hover .logo-icon {
+  background: #444;
+  transform: scale(1.05);
+} */
 
 .brand-text {
   display: flex;
@@ -53,11 +62,47 @@
   line-height: 1;
 }
 
-.brand-main {
+/* .brand-main {
   font-size: 1.3rem;
   font-weight: 700;
-  color: white;
+color: #667eea;
   letter-spacing: -0.5px;
+  transition: all 0.3s ease;
+} */
+
+
+
+
+
+/* Modern Tech Style */
+.brand-main {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+   font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  position: relative;
+  text-shadow: 
+    0 0 10px rgba(102, 126, 234, 0.5),
+    0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+.brand-main::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.brand-logo:hover .brand-main::after {
+  transform: scaleX(1);
 }
 
 /* Compact Navigation Items */
@@ -71,17 +116,21 @@
   display: flex;
   align-items: center;
   font-size: 0.9rem;
+  text-decoration: none;
 }
 
 .nav-item:hover {
   color: white !important;
-   transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
 }
 
 .nav-item.active {
   color: white !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-weight: 600;
-   transform: translateY(-2px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 /* Compact Notes Badge */
@@ -91,6 +140,48 @@
   background: #666 !important;
   color: white !important;
   font-weight: 600;
+  border-radius: 10px;
+}
+
+/* User Toggle Button */
+.user-toggle {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  padding: 0.4rem 0.8rem !important;
+  border-radius: 8px;
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.user-toggle:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  color: white !important;
+  transform: translateY(-1px);
+}
+
+/* User Avatar */
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-weight: 500;
+  color: inherit;
 }
 
 /* Compact Dropdown Styles */
@@ -115,6 +206,117 @@
   margin-top: 0.3rem !important;
   min-width: 200px;
 }
+
+.dropdown-header {
+  background: transparent !important;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.dropdown-divider {
+  border-color: #333 !important;
+  margin: 0.3rem 0;
+}
+
+.dropdown-item {
+  color: rgba(255, 255, 255, 0.8) !important;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item:hover {
+  color: white !important;
+  background: rgba(102, 126, 234, 0.2);
+}
+
+.logout-item:hover {
+  background: rgba(220, 53, 69, 0.2) !important;
+  color: #dc3545 !important;
+}
+
+/* Register Button */
+.register-btn {
+  margin-left: 0.5rem;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  transform: translateY(-1px);
+}
+
+/* Toggle Button */
+.navbar-toggle {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggle:focus {
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.5);
+}
+
+
+
+
+
+/* Main app content takes full viewport */
+/* .app-content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+} */
+
+
+/* Main scroll container - takes remaining space and scrolls */
+.main-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: 60px; /* Height of navbar */
+  height: calc(100vh - 60px); /* Full height minus navbar */
+  padding: 0;
+}
+
+/* Specific page containers */
+.dashboard-page,
+.notes-page,
+.note-details-page,
+.note-editor-page,
+.login-page,
+.register-page {
+  min-height: calc(100vh - 60px);
+  padding: 20px 0;
+}
+
+
+/* Loading states */
+.loading-fullpage {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Ensure all pages take full available height */
+.page-content {
+  min-height: calc(100vh - 60px);
+  padding: 20px;
+}
+
+
+
 
 .dropdown-item {
   display: flex;
@@ -155,6 +357,11 @@
   background: #218838 !important;
   transform: translateY(-1px);
 }
+
+
+
+
+
 
 /* Compact User Section */
 .user-nav {
@@ -262,47 +469,6 @@
   border: 1px solid #17a2b8;
   color: #17a2b8;
 }
-
-/* Responsive Design for Compact Navbar */
-@media (max-width: 991.98px) {
-  .custom-navbar {
-    padding: 0.3rem 0;
-  }
-  
-  .nav-item {
-    padding: 0.6rem 1rem !important;
-    margin: 0.1rem 0;
-    font-size: 0.9rem;
-  }
-  
-  .nav-dropdown-menu {
-    background: #1a1a1a;
-    margin: 0.3rem 0;
-    border-radius: 6px;
-  }
-  
-  .user-toggle {
-    margin: 0.3rem 0;
-    width: 100%;
-    justify-content: flex-start;
-  }
-  
-  .new-note-btn {
-    width: 100%;
-    margin: 0.3rem 0;
-    justify-content: center;
-  }
-  
-  .brand-main {
-    font-size: 1.2rem;
-  }
-  
-  .logo-icon {
-    font-size: 1.3rem;
-    padding: 0.3rem;
-  }
-}
-
 
 
 
@@ -472,20 +638,10 @@
   animation: fadeIn 0.5s ease-in;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -512,6 +668,26 @@
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
+
+
+/* Utility Classes */
+.gradient-text {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-custom {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.border-gradient {
+  border: 2px solid;
+  border-image: linear-gradient(45deg, #667eea, #764ba2) 1;
+}
+
+
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -592,6 +768,7 @@
   }
 }
 
+
 /* Print Styles */
 @media print {
   .navbar, .btn, .card-footer {
@@ -603,6 +780,8 @@
     box-shadow: none !important;
   }
 }
+
+
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
@@ -622,19 +801,74 @@
   }
 }
 
-/* Utility Classes */
-.gradient-text {
-  background: linear-gradient(45deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.shadow-custom {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+/* Mobile Responsive */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background: #000000;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    border: 1px solid #333;
+  }
+  
+  .nav-item {
+    margin: 0.2rem 0;
+    justify-content: center;
+  }
+  
+  .ms-auto {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #333;
+    justify-content: center !important;
+  }
+  
+  .user-toggle,
+  .register-btn {
+    justify-content: center;
+    width: 100%;
+  }
 }
 
-.border-gradient {
-  border: 2px solid;
-  border-image: linear-gradient(45deg, #667eea, #764ba2) 1;
+/* Small screen adjustments */
+@media (max-width: 576px) {
+  .navbar-container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .brand-main {
+    font-size: 1.1rem;
+  }
+  
+  .logo-icon {
+    font-size: 1.3rem;
+    padding: 0.3rem;
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

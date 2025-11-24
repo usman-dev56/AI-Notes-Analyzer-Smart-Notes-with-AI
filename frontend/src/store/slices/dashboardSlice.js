@@ -1,26 +1,126 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { mockDashboardStats } from '../../data/mockData';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { notesService } from '../../services/notesService';
+
+export const getDashboardStats = createAsyncThunk(
+  'dashboard/getStats',
+  async (_, thunkAPI) => {
+    try {
+      const response = await notesService.getDashboardStats();
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || 
+                          error.response?.data?.message || 
+                          'Failed to load dashboard statistics. Please try again.';
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const getAIStatus = createAsyncThunk(
+  'dashboard/getAIStatus',
+  async (_, thunkAPI) => {
+    try {
+      const response = await notesService.getAIStatus();
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || 
+                          'AI service status check failed';
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
 
 const dashboardSlice = createSlice({
   name: 'dashboard',
   initialState: {
-    stats: mockDashboardStats,
+    stats: {
+      totalNotes: 0,
+      categoryCount: { Study: 0, Work: 0, Personal: 0 },
+      analyzedNotes: 0,
+      recentNotes: 0,
+      commonTone: 'N/A',
+      topKeywords: []
+    },
     loading: false,
-    error: null
+    error: null,
+    aiStatus: null,
+    aiStatusLoading: false
   },
   reducers: {
-    getDashboardStats: (state) => {
-      // In static version, we just use mock data
-      state.stats = mockDashboardStats;
+    clearError: (state) => {
+      state.error = null;
     },
-    setLoading: (state, action) => {
-      state.loading = action.payload;
+    clearLoading: (state) => {
+      state.loading = false;
     },
-    setError: (state, action) => {
-      state.error = action.payload;
+    resetStats: (state) => {
+      state.stats = {
+        totalNotes: 0,
+        categoryCount: { Study: 0, Work: 0, Personal: 0 },
+        analyzedNotes: 0,
+        recentNotes: 0,
+        commonTone: 'N/A',
+        topKeywords: []
+      };
+    },
+    clearAIStatus: (state) => {
+      state.aiStatus = null;
+    },
+    clearAIStatusLoading: (state) => {
+      state.aiStatusLoading = false;
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      // Dashboard Stats
+      .addCase(getDashboardStats.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDashboardStats.fulfilled, (state, action) => {
+        state.loading = false;
+        state.stats = action.payload;
+        state.error = null;
+      })
+      .addCase(getDashboardStats.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        // Reset stats on error to prevent showing stale data
+        state.stats = {
+          totalNotes: 0,
+          categoryCount: { Study: 0, Work: 0, Personal: 0 },
+          analyzedNotes: 0,
+          recentNotes: 0,
+          commonTone: 'N/A',
+          topKeywords: []
+        };
+      })
+      
+      // AI Status
+      .addCase(getAIStatus.pending, (state) => {
+        state.aiStatusLoading = true;
+      })
+      .addCase(getAIStatus.fulfilled, (state, action) => {
+        state.aiStatusLoading = false;
+        state.aiStatus = action.payload.data;
+      })
+      .addCase(getAIStatus.rejected, (state, action) => {
+        state.aiStatusLoading = false;
+        state.aiStatus = { 
+          status: 'unavailable', 
+          error: action.payload,
+          lastChecked: new Date().toISOString()
+        };
+      });
   }
 });
 
-export const { getDashboardStats, setLoading, setError } = dashboardSlice.actions;
+export const { 
+  clearError, 
+  clearLoading, 
+  resetStats, 
+  clearAIStatus, 
+  clearAIStatusLoading 
+} = dashboardSlice.actions;
+
 export default dashboardSlice.reducer;

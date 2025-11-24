@@ -1,23 +1,102 @@
-import React from 'react';
-import { Container, Row, Col, Card, Button, Badge, Tabs, Tab, Alert } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Container, Row, Col, Card, Button, Badge, Tabs, Tab, Alert, Spinner } from 'react-bootstrap';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { analyzeNote, deleteNote } from '../store/slices/notesSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchNote, deleteNote, togglePin, clearError } from '../store/slices/notesSlice';
 
 const NoteDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { notes } = useSelector(state => state.notes);
+  
+  const { currentNote, loading, error } = useSelector(state => state.notes);
 
-  const note = notes.find(note => note._id === id);
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchNote(id));
+    }
+  }, [dispatch, id]);
 
-  if (!note) {
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
+
+  const handleDelete = () => {
+    if (window.confirm('Are you sure you want to delete this note?')) {
+      dispatch(deleteNote(id))
+        .unwrap()
+        .then(() => {
+          navigate('/notes');
+        })
+        .catch(error => {
+          console.error('Delete failed:', error);
+        });
+    }
+  };
+
+  const handleTogglePin = () => {
+    dispatch(togglePin(id));
+  };
+
+  // const handleAnalyze = () => {
+  //   // Will be implemented when we add AI
+  //   alert('AI Analysis feature will be available soon!');
+  // };
+
+  // In the NoteDetails component, update the handleAnalyze function:
+const handleAnalyze = async () => {
+  if (!currentNote.content || currentNote.content.trim().length < 20) {
+    alert('Note content is too short for AI analysis (minimum 20 characters required)');
+    return;
+  }
+
+  try {
+    await dispatch(analyzeNote(currentNote._id)).unwrap();
+    alert('✅ AI analysis completed successfully! Check the AI Analysis panel.');
+  } catch (error) {
+    alert(`❌ AI analysis failed: ${error}`);
+  }
+};
+
+  const handleEdit = () => {
+    navigate(`/notes/edit/${id}`);
+  };
+
+  if (loading) {
+    return (
+      <Container className="mt-4">
+        <div className="text-center">
+          <Spinner animation="border" role="status" className="text-primary">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+          <p className="mt-2">Loading note...</p>
+        </div>
+      </Container>
+    );
+  }
+
+  if (error) {
     return (
       <Container className="mt-4">
         <Alert variant="danger">
+          <h4>Error Loading Note</h4>
+          <p>{error}</p>
+
+          <Link to="/notes" className="btn btn-primary">
+            Back to Notes
+          </Link>
+
+        </Alert>
+      </Container>
+    );
+  }
+
+  if (!currentNote) {
+    return (
+      <Container className="mt-4">
+        <Alert variant="warning">
           <h4>Note Not Found</h4>
-          <p>The note you're looking for doesn't exist.</p>
+          <p>The note you're looking for doesn't exist or you don't have permission to view it.</p>
           <Link to="/notes" className="btn btn-primary">
             Back to Notes
           </Link>
@@ -26,75 +105,57 @@ const NoteDetails = () => {
     );
   }
 
-  const handleAnalyze = () => {
-    dispatch(analyzeNote(note._id));
-  };
-
-  const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete this note?')) {
-      dispatch(deleteNote(note._id));
-      navigate('/notes');
-    }
-  };
-
-  const handleEdit = () => {
-    navigate(`/notes/edit/${note._id}`);
-  };
-
   return (
-    <Container className="mt-4">
+    <Container className="mt-4 note-details-page">
       {/* Header with Actions */}
       <Row className="mb-4">
         <Col>
           <div className="d-flex justify-content-between align-items-start">
             <div>
               <div className="d-flex align-items-center mb-2">
-
-                {/* <Button 
-                  variant="outline-secondary" 
-                  size="sm" 
-                  onClick={() => navigate('/notes')}
-                  className="me-2"
-                >
-                  <i className="bi bi-arrow-left"></i> Back
-                </Button> */}
-
-                <h2 className="mb-0">{note.title}</h2>
-                {note.isPinned && (
+             
+                <h2 className="mb-0">{currentNote.title}</h2>
+                {currentNote.isPinned && (
                   <i className="bi bi-pin-angle-fill text-warning ms-2 fs-5" title="Pinned"></i>
                 )}
               </div>
-              <div className="d-flex align-items-center gap-2">
-                <Badge bg="primary">{note.category}</Badge>
+      
+              <div className="d-flex align-items-center gap-2 flex-wrap">
+                <Badge bg="primary">{currentNote.category}</Badge>
                 <small className="text-muted">
-                  Created: {new Date(note.createdAt).toLocaleDateString()}
+                  Created: {new Date(currentNote.createdAt).toLocaleDateString()}
                 </small>
                 <small className="text-muted">
-                  Updated: {new Date(note.updatedAt).toLocaleDateString()}
+                  Updated: {new Date(currentNote.updatedAt).toLocaleDateString()}
                 </small>
               </div>
             </div>
 
-
-<div className="d-flex gap-2">
-  <button className="btn btn-soft btn-soft-primary">
-    <i className="bi bi-pencil me-2"></i> Edit
-  </button>
-
-  <button className="btn btn-soft btn-soft-info">
-    <i className="bi bi-robot me-2"></i> AI Analyze
-  </button>
-
-  <button className="btn btn-soft btn-soft-danger">
-    <i className="bi bi-trash me-2"></i> Delete
-  </button>
-</div>
-
-
-
-
-
-
+            {/* Buttons */}
+            <div className="d-flex gap-2">
+              <Button variant="outline-primary" 
+                  size="sm" 
+                  className="btn btn-soft btn-soft-primary"
+                   onClick={handleEdit}>
+                <i className="bi bi-pencil me-2"></i>
+                Edit
+              </Button>
+              <Button 
+                variant={currentNote.isPinned ? "warning" : "outline-warning"}
+                onClick={handleTogglePin}
+              >
+                <i className={`bi bi-pin-angle${currentNote.isPinned ? '-fill' : ''} me-2 `}></i>
+                {currentNote.isPinned ? 'Unpin' : 'Pin'}
+              </Button>
+              {/* <Button variant="outline-primary" className="btn btn-soft btn-soft-info" onClick={handleAnalyze}>
+                <i className="bi bi-robot me-2"></i>
+                AI Analyze
+              </Button> */}
+              <Button  variant="outline-primary" className="btn btn-soft btn-soft-danger" onClick={handleDelete}>
+                <i className="bi bi-trash me-2"></i>
+                Delete
+              </Button>
+            </div>
           </div>
         </Col>
       </Row>
@@ -103,23 +164,23 @@ const NoteDetails = () => {
         {/* Main Content */}
         <Col lg={8}>
           <Card className="shadow">
-            <Card.Header className="bg-light">
-              <h5 className="mb-0 text-dark">
-                <i className="bi bi-journal-text  text-dark me-2"></i>
+            <Card.Header className="bg-light text-dark">
+              <h5 className="mb-0">
+                <i className="bi bi-journal-text me-2"></i>
                 Note Content
               </h5>
             </Card.Header>
             <Card.Body>
               <div className="note-content" style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6' }}>
-                {note.content}
+                {currentNote.content}
               </div>
-
+              
               {/* Tags */}
-              {note.tags && note.tags.length > 0 && (
+              {currentNote.tags && currentNote.tags.length > 0 && (
                 <div className="mt-4 pt-3 border-top">
                   <strong>Tags: </strong>
-                  {note.tags.map(tag => (
-                    <Badge key={tag} bg="primary" className="me-1 text-dark">
+                  {currentNote.tags.map(tag => (
+                    <Badge key={tag} bg="primary"  className="me-1 mb-1">
                       #{tag}
                     </Badge>
                   ))}
@@ -129,38 +190,46 @@ const NoteDetails = () => {
           </Card>
         </Col>
 
+
+
+
+
+
+
+
         {/* AI Analysis Sidebar */}
         <Col lg={4}>
           <Card className="shadow">
             <Card.Header className="bg-light text-dark">
               <h5 className="mb-0">
-                <i className="bi bi-robot text-dark me-2"></i>
+                <i className="bi bi-robot me-2"></i>
                 AI Analysis
               </h5>
             </Card.Header>
+
             <Card.Body>
-              {note.aiAnalysis ? (
+              {currentNote.aiAnalysis ? (
                 <Tabs defaultActiveKey="summary" className="mb-3">
                   <Tab eventKey="summary" title="Summary">
                     <div className="p-2">
-                      <p className="mb-0">{note.aiAnalysis.summary}</p>
+                      <p className="mb-0">{currentNote.aiAnalysis.summary}</p>
                     </div>
                   </Tab>
-
+                  
                   <Tab eventKey="keywords" title="Keywords">
                     <div className="p-2">
-                      {note.aiAnalysis.keywords?.map((keyword, index) => (
+                      {currentNote.aiAnalysis.keywords?.map((keyword, index) => (
                         <Badge key={index} bg="primary" className="me-1 mb-1">
                           {keyword}
                         </Badge>
                       ))}
                     </div>
                   </Tab>
-
+                  
                   <Tab eventKey="questions" title="Questions">
                     <div className="p-2">
                       <ol className="ps-3">
-                        {note.aiAnalysis.questions?.map((question, index) => (
+                        {currentNote.aiAnalysis.questions?.map((question, index) => (
                           <li key={index} className="mb-2 small">
                             {question}
                           </li>
@@ -168,30 +237,30 @@ const NoteDetails = () => {
                       </ol>
                     </div>
                   </Tab>
-
+                  
                   <Tab eventKey="simplified" title="Simplified">
                     <div className="p-2">
-                      <p className="mb-0 small">{note.aiAnalysis.simplifiedContent}</p>
+                      <p className="mb-0 small">{currentNote.aiAnalysis.simplifiedContent}</p>
                     </div>
                   </Tab>
-
+                  
                   <Tab eventKey="tone" title="Tone">
                     <div className="p-2">
                       <div className="d-flex align-items-center mb-2">
                         <strong>Tone: </strong>
-                        <Badge
+                        <Badge 
                           bg={
-                            note.aiAnalysis.tone === 'formal' ? 'primary' :
-                              note.aiAnalysis.tone === 'academic' ? 'success' :
-                                'info'
-                          }
+                            currentNote.aiAnalysis.tone === 'formal' ? 'primary' :
+                            currentNote.aiAnalysis.tone === 'academic' ? 'success' :
+                            'info'
+                          } 
                           className="ms-2"
                         >
-                          {note.aiAnalysis.tone}
+                          {currentNote.aiAnalysis.tone}
                         </Badge>
                       </div>
-                      <small className="text-muted bg-light">
-                        Last analyzed: {new Date(note.aiAnalysis.lastAnalyzed).toLocaleString()}
+                      <small className="text-light">
+                        Last analyzed: {new Date(currentNote.aiAnalysis.lastAnalyzed).toLocaleString()}
                       </small>
                     </div>
                   </Tab>
@@ -210,27 +279,27 @@ const NoteDetails = () => {
 
           {/* Quick Stats */}
           <Card className="shadow mt-4">
-            <Card.Header className="bg-light">
-              <h6 className="mb-0 text-dark">Note Statistics</h6>
+            <Card.Header className="bg-light text-dark">
+              <h6 className="mb-0">Note Statistics</h6>
             </Card.Header>
             <Card.Body>
               <div className="small">
                 <div className="d-flex justify-content-between mb-2">
                   <span>Characters:</span>
-                  <strong>{note.content.length}</strong>
+                  <strong>{currentNote.content.length}</strong>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
                   <span>Words:</span>
-                  <strong>{note.content.split(/\s+/).filter(word => word.length > 0).length}</strong>
+                  <strong>{currentNote.content.split(/\s+/).filter(word => word.length > 0).length}</strong>
                 </div>
                 <div className="d-flex justify-content-between mb-2">
                   <span>Category:</span>
-                  <Badge bg="primary">{note.category}</Badge>
+                  <Badge bg="primary">{currentNote.category}</Badge>
                 </div>
                 <div className="d-flex justify-content-between">
                   <span>Status:</span>
-                  <Badge bg={note.isPinned ? "warning" : "secondary"}>
-                    {note.isPinned ? "Pinned" : "Normal"}
+                  <Badge bg={currentNote.isPinned ? "warning" : "secondary"}>
+                    {currentNote.isPinned ? "Pinned" : "Normal"}
                   </Badge>
                 </div>
               </div>

@@ -1,18 +1,13 @@
 import React from 'react';
-import { Card, Badge, Button, Row, Col } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { Card, Badge, Button, Row, Col, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { deleteNote } from '../../store/slices/notesSlice';
 
-const NoteCard = ({ note, onAnalyze }) => {
-  const dispatch = useDispatch();
-
-  const handleDelete = async () => {
-    if (window.confirm('Are you sure you want to delete this note?')) {
-      dispatch(deleteNote(note._id));
-    }
-  };
-
+const NoteCard = ({ note, onAnalyze, onDelete, aiLoading, aiStatus }) => {
+  
+  const isAnalyzing = aiLoading === note._id;
+   // const canAnalyze = aiStatus?.status === 'operational';
+  const canAnalyze = true; 
+  
   return (
     <Card className="h-100 shadow-sm note-card">
       <Card.Body className="d-flex flex-column">
@@ -26,13 +21,13 @@ const NoteCard = ({ note, onAnalyze }) => {
         <div className="mb-2">
           <Badge bg="primary" className="me-1">{note.category}</Badge>
           {note.tags?.map(tag => (
-            <Badge bg="outline-secondary" className="me-1 text-dark" key={tag}>
+            <Badge bg="outline-secondary" className="me-1 text-white-50" key={tag}>
               #{tag}
             </Badge>
           ))}
         </div>
 
-        <Card.Text className="text-muted small flex-grow-1">
+        <Card.Text className="text-white-50 small flex-grow-1">
           {note.content.substring(0, 120)}...
         </Card.Text>
 
@@ -52,13 +47,12 @@ const NoteCard = ({ note, onAnalyze }) => {
       <Card.Footer className="bg-transparent">
         <Row className="g-2">
           <Col>
-            <small className="text-muted">
+            <small className="text-white-50">
               Updated {new Date(note.updatedAt).toLocaleDateString()}
             </small>
           </Col>
           <Col xs="auto">
             <div className="d-flex gap-1">
-              {/* Read More Button */}
               <Link 
                 to={`/notes/${note._id}`}
                 className="btn btn-outline-success btn-sm"
@@ -75,17 +69,24 @@ const NoteCard = ({ note, onAnalyze }) => {
                 <i className="bi bi-pencil"></i>
               </Link>
               
+              {/* AI Analyze Button */}
               <Button 
-                variant="outline-info btn-sm" 
+                variant={canAnalyze ? "outline-info" : "outline-secondary"}
+                size="sm" 
                 onClick={() => onAnalyze(note)}
-                title="AI Analyze"
+                title={canAnalyze ? "AI Analyze" : "AI service unavailable"}
+                disabled={isAnalyzing || !canAnalyze}
               >
-                <i className="bi bi-robot"></i>
+                {isAnalyzing ? (
+                  <Spinner animation="border" size="sm" />
+                ) : (
+                  <i className="bi bi-robot"></i>
+                )}
               </Button>
               
               <Button 
                 variant="outline-danger btn-sm" 
-                onClick={handleDelete}
+                onClick={() => onDelete(note._id)}
                 title="Delete Note"
               >
                 <i className="bi bi-trash"></i>

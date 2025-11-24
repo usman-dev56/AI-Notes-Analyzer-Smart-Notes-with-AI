@@ -14,6 +14,15 @@ const SearchBar = ({ onSearch }) => {
     onSearch('');
   };
 
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    // Real-time search
+    if (value === '') {
+      onSearch('');
+    }
+  };
+
   return (
     <Form onSubmit={handleSearch}>
       <InputGroup>
@@ -21,7 +30,8 @@ const SearchBar = ({ onSearch }) => {
           type="text"
           placeholder="Search notes by title, content, or keywords..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleChange}
+          className="search-bar"
         />
         <Button variant="primary" type="submit">
           <i className="bi bi-search"></i>

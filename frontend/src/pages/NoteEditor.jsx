@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, Alert, Tabs, Tab } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Alert, Tabs, Tab, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { createNote, updateNote, analyzeNote } from '../store/slices/notesSlice';
+import { createNote, updateNote, fetchNote, clearError } from '../store/slices/notesSlice';
 
 const NoteEditor = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { notes } = useSelector(state => state.notes);
+  
+  const { currentNote, loading, error } = useSelector(state => state.notes);
   
   const isEditing = !!id;
-  const currentNote = isEditing ? notes.find(note => note._id === id) : null;
-
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -22,9 +21,16 @@ const NoteEditor = () => {
   });
 
   const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
-    if (currentNote) {
+    if (isEditing && id) {
+      dispatch(fetchNote(id));
+    }
+  }, [dispatch, isEditing, id]);
+
+  useEffect(() => {
+    if (currentNote && isEditing) {
       setFormData({
         title: currentNote.title,
         content: currentNote.content,
@@ -33,41 +39,98 @@ const NoteEditor = () => {
         isPinned: currentNote.isPinned || false
       });
     }
-  }, [currentNote]);
+  }, [currentNote, isEditing]);
+
+  useEffect(() => {
+    if (error) {
+      setAlertMessage(error);
+      setShowAlert(true);
+    }
+  }, [error]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(clearError());
     
     const noteData = {
-      ...formData,
-      tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
+      title: formData.title,
+      content: formData.content,
+      category: formData.category,
+      tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+      isPinned: formData.isPinned
     };
 
-    if (isEditing) {
-      dispatch(updateNote({ id, ...noteData }));
-    } else {
-      dispatch(createNote(noteData));
-    }
-
-    setShowAlert(true);
-    setTimeout(() => {
-      navigate('/notes');
-    }, 1000);
-  };
-
-  const handleAnalyze = () => {
-    if (currentNote) {
-      dispatch(analyzeNote(currentNote._id));
+    try {
+      if (isEditing) {
+        await dispatch(updateNote({ id, ...noteData })).unwrap();
+        setAlertMessage('Note updated successfully!');
+      } else {
+        await dispatch(createNote(noteData)).unwrap();
+        setAlertMessage('Note created successfully!');
+      }
+      
       setShowAlert(true);
+      setTimeout(() => {
+        navigate('/notes');
+      }, 1500);
+    } catch (error) {
+      // Error is handled by Redux and will be displayed
+      console.error('Error saving note:', error);
     }
   };
+
+  // const handleAnalyze = () => {
+  //   // Will be implemented when we add AI
+  //   alert('AI Analysis feature will be available soon!');
+  // };
+
+   // In the NoteEditor component, update the handleAnalyze function:
+const handleAnalyze = async () => {
+  if (!currentNote.content || currentNote.content.trim().length < 20) {
+    setAlertMessage('Note content is too short for AI analysis (minimum 20 characters required)');
+    setShowAlert(true);
+    return;
+  }
+
+  try {
+    await dispatch(analyzeNote(currentNote._id)).unwrap();
+    setAlertMessage('✅ AI analysis completed successfully! Check the AI Analysis panel below.');
+    setShowAlert(true);
+    
+    // Refresh the note data to show updated AI analysis
+    dispatch(fetchNote(currentNote._id));
+  } catch (error) {
+    setAlertMessage(`❌ AI analysis failed: ${error}`);
+    setShowAlert(true);
+  }
+};
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  if (loading && isEditing) {
+    return (
+      <Container className="mt-4">
+        <div className="text-center">
+          <Spinner animation="border" role="status" className="text-primary">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+          <p className="mt-2">Loading note...</p>
+        </div>
+      </Container>
+    );
+  }
 
   return (
-    <Container className="mt-4">
+    <Container className="mt-4 note-editor-page">
       <Row className="justify-content-center">
         <Col lg={10}>
           <Card className="shadow">
-            <Card.Header className="bg-light ">
+            <Card.Header className="bg-light">
               <h4 className="mb-0 text-dark">
                 <i className={`bi bi-${isEditing ? 'pencil' : 'plus'}-circle me-2`}></i>
                 {isEditing ? 'Edit Note' : 'Create New Note'}
@@ -76,9 +139,13 @@ const NoteEditor = () => {
             
             <Card.Body>
               {showAlert && (
-                <Alert variant="success" className="d-flex align-items-center">
-                  <i className="bi bi-check-circle-fill me-2"></i>
-                  {isEditing ? 'Note updated successfully!' : 'Note created successfully!'}
+                <Alert 
+                  variant={error ? "danger" : "success"} 
+                  dismissible 
+                  onClose={() => setShowAlert(false)}
+                >
+                  <i className={`bi bi-${error ? 'exclamation-triangle' : 'check-circle'}-fill me-2`}></i>
+                  {alertMessage}
                 </Alert>
               )}
 
@@ -89,10 +156,12 @@ const NoteEditor = () => {
                       <Form.Label>Title</Form.Label>
                       <Form.Control
                         type="text"
+                        name="title"
                         value={formData.title}
-                        onChange={(e) => setFormData({...formData, title: e.target.value})}
+                        onChange={handleChange}
                         placeholder="Enter note title..."
                         required
+                        disabled={loading}
                       />
                     </Form.Group>
                   </Col>
@@ -100,8 +169,10 @@ const NoteEditor = () => {
                     <Form.Group className="mb-3">
                       <Form.Label>Category</Form.Label>
                       <Form.Select
+                        name="category"
                         value={formData.category}
-                        onChange={(e) => setFormData({...formData, category: e.target.value})}
+                        onChange={handleChange}
+                        disabled={loading}
                       >
                         <option value="Study">Study</option>
                         <option value="Work">Work</option>
@@ -116,10 +187,12 @@ const NoteEditor = () => {
                   <Form.Control
                     as="textarea"
                     rows={12}
+                    name="content"
                     value={formData.content}
-                    onChange={(e) => setFormData({...formData, content: e.target.value})}
-                    placeholder="Write your note content here... (Markdown supported)"
+                    onChange={handleChange}
+                    placeholder="Write your note content here..."
                     required
+                    disabled={loading}
                   />
                 </Form.Group>
 
@@ -129,32 +202,64 @@ const NoteEditor = () => {
                       <Form.Label>Tags (comma separated)</Form.Label>
                       <Form.Control
                         type="text"
+                        name="tags"
                         value={formData.tags}
-                        onChange={(e) => setFormData({...formData, tags: e.target.value})}
+                        onChange={handleChange}
                         placeholder="ai, machine learning, study notes"
+                        disabled={loading}
                       />
+                      <Form.Text className="text-white-50">
+                        Separate tags with commas
+                      </Form.Text>
                     </Form.Group>
                   </Col>
                   <Col md={4}>
                     <Form.Group className="mb-3">
                       <Form.Check
                         type="checkbox"
+                        name="isPinned"
                         label="Pin this note"
                         checked={formData.isPinned}
-                        onChange={(e) => setFormData({...formData, isPinned: e.target.checked})}
+                        onChange={handleChange}
+                        disabled={loading}
                       />
                     </Form.Group>
                   </Col>
                 </Row>
 
                 <div className="d-flex gap-2">
-                  <Button type="submit" variant="primary">
-                    <i className={`bi bi-${isEditing ? 'check' : 'plus'}-circle me-2`}></i>
-                    {isEditing ? 'Update Note' : 'Create Note'}
+                  <Button 
+                    type="submit" 
+                    variant="primary"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                          className="me-2"
+                        />
+                        {isEditing ? 'Updating...' : 'Creating...'}
+                      </>
+                    ) : (
+                      <>
+                        <i className={`bi bi-${isEditing ? 'check' : 'plus'}-circle me-2`}></i>
+                        {isEditing ? 'Update Note' : 'Create Note'}
+                      </>
+                    )}
                   </Button>
                   
                   {isEditing && (
-                    <Button type="button" variant="outline-info" onClick={handleAnalyze}>
+                    <Button 
+                      type="button" 
+                      variant="outline-info" 
+                      onClick={handleAnalyze}
+                      disabled={loading}
+                    >
                       <i className="bi bi-robot me-2"></i>
                       AI Analyze
                     </Button>
@@ -162,8 +267,9 @@ const NoteEditor = () => {
                   
                   <Button 
                     type="button" 
-                    variant="outline-secondary" 
+                    variant="outline-secondary text-warning" 
                     onClick={() => navigate('/notes')}
+                    disabled={loading}
                   >
                     Cancel
                   </Button>
@@ -177,7 +283,7 @@ const NoteEditor = () => {
             <Card className="mt-4 shadow">
               <Card.Header className="bg-light">
                 <h5 className="mb-0 text-dark">
-                  <i className="bi bi-robot  me-2"></i>
+                  <i className="bi bi-robot me-2"></i>
                   AI Analysis
                 </h5>
               </Card.Header>
@@ -216,7 +322,7 @@ const NoteEditor = () => {
                         {currentNote.aiAnalysis.tone}
                       </span>
                     </div>
-                    <small className="text-muted mt-2 d-block">
+                    <small className="text-light mt-2 d-block">
                       Last analyzed: {new Date(currentNote.aiAnalysis.lastAnalyzed).toLocaleString()}
                     </small>
                   </Tab>

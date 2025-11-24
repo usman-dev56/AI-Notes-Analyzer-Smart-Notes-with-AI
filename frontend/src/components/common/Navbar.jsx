@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React from 'react';
 import { Navbar, Nav, Container, Button, Dropdown, Badge } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,58 +11,36 @@ const CustomNavbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  // Handle scroll effect
-  React.useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleLogout = () => {
     dispatch(logout());
     navigate('/login');
   };
 
-  // Count notes by category for the dropdown
-  const studyNotes = notes.filter(note => note.category === 'Study').length;
-  const workNotes = notes.filter(note => note.category === 'Work').length;
-  const personalNotes = notes.filter(note => note.category === 'Personal').length;
-
   const isActiveRoute = (path) => {
     return location.pathname === path;
   };
 
   return (
-    <Navbar 
-      expand="lg" 
-      fixed="top"
-      className={`custom-navbar ${isScrolled ? 'scrolled' : ''}`}
-      variant="dark"
-    >
-      <Container>
-        {/* Brand Logo */}
+    <Navbar expand="lg" fixed="top" className="custom-navbar" variant="dark">
+      <Container fluid className="navbar-container">
+        {/* Brand Logo - Left */}
         <Navbar.Brand  className="brand-logo">
           <div className="logo-icon">
             <i className="bi bi-journal-bookmark-fill"></i>
           </div>
           <div className="brand-text">
-            <span className="brand-main">AI Notes Analyzer</span>
+            <span className="brand-main">AI Notes</span>
           </div>
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav">
-          <span className="navbar-toggler-icon"></span>
-        </Navbar.Toggle>
+        {/* Mobile Toggle */}
+        <Navbar.Toggle aria-controls="basic-navbar-nav" className="navbar-toggle" />
 
         <Navbar.Collapse id="basic-navbar-nav">
           {isAuthenticated ? (
             <>
-              {/* Main Navigation - More Compact */}
+              {/* Navigation Links - Center */}
               <Nav className="mx-auto">
                 <Nav.Link 
                   as={Link} 
@@ -83,72 +62,57 @@ const CustomNavbar = () => {
                     {notes.length}
                   </Badge>
                 </Nav.Link>
-
-                <Dropdown as={Nav.Item} className="nav-dropdown">
-                  <Dropdown.Toggle as={Nav.Link} className="nav-item">
-                    <i className="bi bi-collection me-1"></i>
-                    Categories
-                  </Dropdown.Toggle>
-                  
-                  <Dropdown.Menu className="nav-dropdown-menu">
-                    <Dropdown.Header>Browse by Category</Dropdown.Header>
-                    <Dropdown.Item as={Link} to="/notes?category=Study" className="dropdown-item">
-                      <i className="bi bi-book me-2 text-primary"></i>
-                      Study
-                      <Badge bg="outline-primary" className="ms-2">{studyNotes}</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item as={Link} to="/notes?category=Work" className="dropdown-item">
-                      <i className="bi bi-briefcase me-2 text-success"></i>
-                      Work
-                      <Badge bg="outline-success" className="ms-2">{workNotes}</Badge>
-                    </Dropdown.Item>
-                    <Dropdown.Item as={Link} to="/notes?category=Personal" className="dropdown-item">
-                      <i className="bi bi-person me-2 text-info"></i>
-                      Personal
-                      <Badge bg="outline-info" className="ms-2">{personalNotes}</Badge>
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
               </Nav>
 
-              {/* User Section - More Compact */}
-              <Nav className="ms-auto user-nav">
-                
-                <Dropdown align="end" className="user-dropdown">
-                  <Dropdown.Toggle as={Button} variant="outline-light" size="sm" className="user-toggle">
+              {/* User Dropdown - Right */}
+              <Nav className="ms-auto">
+                <Dropdown align="end" className="nav-dropdown">
+                  <Dropdown.Toggle variant="outline-light" size="sm" className="user-toggle">
                     <div className="user-avatar">
                       <img 
-                        src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.username}&background=666&color=fff`} 
+                        src={user?.avatar || '/default-avatar.png'} 
                         alt={user?.username}
                         className="avatar-img"
+                        onError={(e) => {
+                          e.target.src = '/default-avatar.png';
+                        }}
                       />
                     </div>
                     <span className="user-name">{user?.username}</span>
+                    <i className="bi bi-chevron-down ms-1 small"></i>
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu className="user-dropdown-menu">
-                    <Dropdown.Header>
+                  <Dropdown.Menu className="nav-dropdown-menu">
+                    <Dropdown.Header className="dropdown-header">
                       <div className="d-flex align-items-center">
                         <div className="user-avatar me-2">
                           <img 
-                            src={user?.avatar || `https://ui-avatars.com/api/?name=${user?.username}&background=666&color=fff`} 
+                            src={user?.avatar || '/default-avatar.png'} 
                             alt={user?.username}
                             className="avatar-img"
                           />
                         </div>
                         <div>
-                          <div className="fw-bold small">{user?.username}</div>
-                          <small className="text-muted">{user?.email}</small>
+                          <div className="fw-bold small text-white">{user?.username}</div>
+                          <small className="text-primary" style={{ fontSize: '0.8rem', textTransform: 'none' }}>{user?.email}</small>
                         </div>
                       </div>
                     </Dropdown.Header>
-                    <Dropdown.Divider />
+                    <Dropdown.Divider className="dropdown-divider" />
                     <Dropdown.Item as={Link} to="/dashboard" className="dropdown-item">
                       <i className="bi bi-speedometer2 me-2"></i>
                       Dashboard
                     </Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={handleLogout} className="dropdown-item text-danger">
+                    <Dropdown.Item as={Link} to="/profile" className="dropdown-item">
+                      <i className="bi bi-person me-2"></i>
+                      Profile
+                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/settings" className="dropdown-item">
+                      <i className="bi bi-gear me-2"></i>
+                      Settings
+                    </Dropdown.Item>
+                    <Dropdown.Divider className="dropdown-divider" />
+                    <Dropdown.Item onClick={handleLogout} className="dropdown-item logout-item">
                       <i className="bi bi-box-arrow-right me-2"></i>
                       Logout
                     </Dropdown.Item>
@@ -157,13 +121,9 @@ const CustomNavbar = () => {
               </Nav>
             </>
           ) : (
-            /* Guest Navigation - More Compact */
+            /* Login/Signup - Right */
             <Nav className="ms-auto">
-              <Nav.Link 
-                as={Link} 
-                to="/login" 
-                className="nav-item"
-              >
+              <Nav.Link as={Link} to="/login" className="nav-item">
                 <i className="bi bi-box-arrow-in-right me-1"></i>
                 Login
               </Nav.Link>
